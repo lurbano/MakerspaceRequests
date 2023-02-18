@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makerspace Requests</title>
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    </style>
+</head>
+<body>
+    <div id="requester">
+        <h2>Requester</h2>
+        <div>
+            Name: <input type="text" id="rName" placeholder="Name" value="Doc">
+        </div>
+        
+
+        <div>
+            Request: <br> <textarea name="" id="requestDescription" cols="50" rows="10">I want it all.</textarea>
+        </div>
+
+        <div>
+            Files: <br>
+            <input type="file" name="" id="uploads" multiple>
+        </div>
+
+        <div>
+            Need By: <input type="date" name="" id="wantBy">
+        </div>
+
+        <div>
+            Priority: <br>
+            Low
+            <input type="range" name="" id="priority" min="0" max="10">
+            High
+        </div>
+        
+        <div>
+            <input type="button" id="submitRequest" value="Submit Request">
+        </div>
+    </div>
+
+    <div id="maker">
+        <h2>Makerspacetronaut</h2>
+        <div>
+            Name: <input type="text"  id="makerName">
+        </div>
+    </div>
+    
+</body>
+
+<script>
+    var d = document;
+    var formData = new FormData();
+    document.getElementById("submitRequest").addEventListener("click", () => {
+        
+        // Collect data to be sent
+        formData.append("requester", rName.value);
+        formData.append("request", requestDescription.value);
+        formData.append("targetDate", wantBy.value);
+        formData.append("priority", priority.value);
+        //formData.append("file", uploads.files[0]);
+
+        console.log(formData);
+        xR = new XMLHttpRequest();
+        xR.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText)
+            }
+        }
+        xR.open("POST", "postLogger.php", true);
+        xR.send();
+        
+    })
+
+    async function uploadFile(formData) {
+        await fetch('/postLogger.php', {
+            method: "POST", 
+            body: formData
+        }); 
+        alert('The file has been uploaded successfully.');
+    }
+
+</script>
+
+</html>
