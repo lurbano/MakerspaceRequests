@@ -63,7 +63,7 @@
         formData.append("request", requestDescription.value);
         formData.append("targetDate", wantBy.value);
         formData.append("priority", priority.value);
-        //formData.append("file", uploads.files[0]);
+        formData.append("file", uploads.files);
 
         console.log(formData);
         makeRequest(formData);
