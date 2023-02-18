@@ -66,16 +66,21 @@
         //formData.append("file", uploads.files[0]);
 
         console.log(formData);
+        makeRequest(fornData);
+        
+    })
+
+    function makeRequest(formData){
         xR = new XMLHttpRequest();
         xR.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText)
+                console.log("From server:");
+                console.log(this.responseText);
             }
         }
         xR.open("POST", "postLogger.php", true);
         xR.send();
-        
-    })
+    }
 
     async function uploadFile(formData) {
         await fetch('/postLogger.php', {
