@@ -1,7 +1,14 @@
 <?php
 
-    echo json_encode($_POST);
-    echo json_encode($_FILES);
+    echo 'rmFile: ';
+
+    // Get POST data (json)
+    $json = file_get_contents('php://input');
+    // Converts it into a PHP object
+    $data = json_decode($json);
+
+    echo json_encode($data);
+    //echo json_encode($_FILES);
 
     $upDir = "./uploads";
 
