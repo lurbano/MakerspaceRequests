@@ -77,10 +77,15 @@
             if (this.readyState == 4 && this.status == 200) {
                 console.log("From server:");
                 console.log(this.responseText);
+                console.log(this.responseText.split()[0]);
+                if (this.responseText.split(' ')[0] === 'Removed') {
+                    uploadedFileList.splice(i,1);
+                    makeFileUploadTable();
+                }
                 // let f = formData.get('file');
                 // console.log(f['name'], f['size']);
                 // uploadedFileList.push(formData.get('file'));
-                // makeFileUploadTable();
+                
             }
         }
         xR.open("POST", "rmFile.php", true);
