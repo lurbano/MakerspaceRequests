@@ -19,20 +19,9 @@ function getNewID(){
     xR.send();
 }
 
-// d.getElementById("requestID").onload = function(){
-//     xR = new XMLHttpRequest();
-//     xR.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             requestId.innerHTML = this.responseText;
-//         }
-//     }
-//     xR.open("POST", "getNewID.php", true);
-//     xR.send(formData);
-// }
 
 d.getElementById("uploads").addEventListener("change", function() {
     console.log(this.files);
-    //this.files.forEach((file) => uploadFile(file));
     for (let i=0; i<this.files.length; i++){
         uploadFile(this.files[i]);
     }
@@ -77,8 +66,21 @@ function uploadFile(file) {
             console.log(this.responseText);
             let f = formData.get('file');
             console.log(f['name'], f['size']);
-            uploadedFileList.push(formData.get('file'));
-            makeFileUploadTable();
+
+            let l_addToTable = true;
+            console.log("File check");
+            for (let i=0; i<uploadedFileList.length; i++){
+                
+                if (f['name'] === uploadedFileList[i]['name']){
+                    l_addToTable = false;
+                    console.log(f['name'], " already in table.")
+                }
+            }
+            if (l_addToTable) {
+                uploadedFileList.push(formData.get('file'));
+                makeFileUploadTable();
+            }
+            
         }
     }
     xR.open("POST", "fileUpload.php", true);
