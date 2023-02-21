@@ -22,6 +22,9 @@ for line in sys.stdin:
         data["val"] = v
         db.upsert(table.Document(v, doc_id = v["id"]))
         #db.update(v, q.id == v["id"])
+    if d["action"] == "getAll":
+        data["values"] = db.all()
+
 
 
     print(json.dumps(data));

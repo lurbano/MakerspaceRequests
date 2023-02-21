@@ -1,8 +1,5 @@
 var d = document;
-var reqID = null;
-var uploadedFileList = [];
 
-d.addEventListener('DOMContentLoaded', getNewID, false);
 
 function getNewID(){
     xR = new XMLHttpRequest();
@@ -27,12 +24,7 @@ function getNewID(){
 
 
 
-d.getElementById("uploads").addEventListener("change", function() {
-    console.log(this.files);
-    for (let i=0; i<this.files.length; i++){
-        uploadFile(this.files[i]);
-    }
-})
+
 
 function removeFile(i){
     let file = uploadedFileList[i];
@@ -135,80 +127,61 @@ function makeFileUploadTable(){
 }
 
 
-d.getElementById("submitRequest").addEventListener("click", () => {
 
-    let data = {};
-    data['id'] = reqID;
-    data['requester'] = rName.value;
-    data['email'] = requesterEmail.value;
-    data['title'] = requestTitle.value;
-    data['description'] = requestDescription.value;
-    data['targetDate'] = wantBy.value;
-    data['priority'] = priority.value;
-    // data['fileList'] = uploadedFileList;
-    data['fileList'] = [];
-    for (let i=0; i<uploadedFileList.length; i++){
-        data['fileList'].push(uploadedFileList[i]['name']);
-    }
-
-    let sendData = {};
-    sendData['action'] = 'update';
-    sendData['value'] = data;
-    console.log(JSON.stringify(sendData));
-
-    xR = new XMLHttpRequest();
+function makeJobBoard(){
+    let xR = new XMLHttpRequest();
     xR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             
-            console.log("Server:", this.responseText);
+            //console.log("Server (getAll):", this.responseText);
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
-            console.log(response);
-            
-            // d.getElementById('requestID').innerHTML = `id: ${response["id"]}`;
-            // reqID = response["id"];
+
+            makeJobTable(response['values']);
         }
     }
+    let data = {};
+    data['action'] = "getAll";
     xR.open("POST", "dbInterface.php", true);
-    xR.send(JSON.stringify(sendData));
+    xR.send(JSON.stringify(data));
+}
 
-    // console.log("Submitting ...");
-    // console.log(data);
+function makeJobTable(jobs){
+    let tableCols = [];
+    tableCols.push("id");
+    tableCols.push("requester");
+    tableCols.push("title");
+    tableCols.push("priority");
+    tableCols.push("status");
 
-    // xR = new XMLHttpRequest();
-    // xR.onreadystatechange = function() {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         console.log("From server:");
-    //         console.log(this.responseText);
-    //     }
-    // }
-    // xR.open("POST", "postLogger.php", true);
-    // xR.send(JSON.stringify(data));
-    
-    // let formData = new FormData();
-    // // Collect data to be sent
-    // formData.append("id", reqID);
-    // formData.append("requester", rName.value);
-    // formData.append("email", requesterEmail.value);
-    // formData.append("title", requestTitle.value);
-    // formData.append("request", requestDescription.value);
-    // formData.append("targetDate", wantBy.value);
-    // formData.append("priority", priority.value);
-    // formData.append("fileList", JSON.stringify(uploadedFileList));
+    let board = d.getElementById('jobBoard');
+    board.innerHTML = "";
 
-    // console.log(formData);
-    // makeRequest(formData);
-    
-})
-
-function makeRequest(formData, phpFile="postLogger.php"){
-    xR = new XMLHttpRequest();
-    xR.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log("From server:");
-            console.log(this.responseText);
-        }
+    let t = d.createElement("table");
+    // Headers
+    let h = t.createTHead();
+    let r = h.insertRow();
+    for (let i=0; i<tableCols.length; i++){
+        let c = r.insertCell();
+        c.innerHTML = tableCols[i];
     }
-    xR.open("POST", phpFile, true);
-    xR.send(formData);
+
+    //Body
+    let tb = t.createTBody();
+
+    console.log("jobs:", jobs);
+    for (let n=0; n<jobs.length; n++) {
+        let job = jobs[n];
+        if (typeof job["id"] !== 'undefined'){
+            console.log(job["id"], job["requester"]);
+            let r = tb.insertRow();
+            for (let i=0; i<tableCols.length; i++){
+                let c = r.insertCell();
+                c.innerHTML = job[tableCols[i]];
+            }
+        }
+        
+    }
+    board.append(t);
+
 }

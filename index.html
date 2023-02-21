@@ -53,6 +53,7 @@
         <div>
             <input type="button" id="submitRequest" value="Submit Request">
         </div>
+        <div id="status">Open</div>
     </div>
 
     <div id="maker">
@@ -65,5 +66,58 @@
 </body>
 
 <script src="mkspRequests.js"></script>
+<script>
+    var reqID = null;
+    var uploadedFileList = [];
+
+    d.addEventListener('DOMContentLoaded', getNewID, false);
+
+    d.getElementById("uploads").addEventListener("change", function() {
+        console.log(this.files);
+        for (let i=0; i<this.files.length; i++){
+            uploadFile(this.files[i]);
+    }
+
+    // SUBMIT BUTTON
+    d.getElementById("submitRequest").addEventListener("click", () => {
+
+        let data = {};
+        data['id'] = reqID;
+        data['requester'] = rName.value;
+        data['email'] = requesterEmail.value;
+        data['title'] = requestTitle.value;
+        data['description'] = requestDescription.value;
+        data['targetDate'] = wantBy.value;
+        data['priority'] = priority.value;
+        // data['fileList'] = uploadedFileList;
+        data['fileList'] = [];
+        for (let i=0; i<uploadedFileList.length; i++){
+            data['fileList'].push(uploadedFileList[i]['name']);
+        }
+        data['status'] = d.getElementById('status').innerHTML;
+
+        let sendData = {};
+        sendData['action'] = 'update';
+        sendData['value'] = data;
+        console.log(JSON.stringify(sendData));
+
+        xR = new XMLHttpRequest();
+        xR.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                
+                console.log("Server:", this.responseText);
+                data = JSON.parse(this.responseText);
+                response = JSON.parse(data['response']);
+                console.log(response);
+                window.alert(`Request (id =${response['id']}) Saved`);
+                
+            }
+        }
+        xR.open("POST", "dbInterface.php", true);
+        xR.send(JSON.stringify(sendData));
+
+    })
+})
+</script>
 
 </html>
