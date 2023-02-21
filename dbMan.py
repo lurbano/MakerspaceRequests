@@ -15,3 +15,9 @@ args = parser.parse_args()
 if (args.insert):
     id = db.insert({})
     print(id)
+
+if (args.upsert):
+    q = Query()
+    db.upsert()
+
+

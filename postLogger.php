@@ -1,10 +1,11 @@
 <?php
 
-    echo json_encode($_POST);
-    // echo json_encode($_FILES);
-    // foreach ($file as $_FILES){
-    //     echo json_encode($file);
-    // }
+    // Get POST data (json)
+    $json = file_get_contents('php://input');
+    // Converts it into a PHP object
+    $data = json_decode($json);
+
+    echo $json;
 
     // $id = trim(`python dbMan.py -i '{}'`);
     // echo "{id: $id}";

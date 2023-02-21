@@ -11,13 +11,20 @@ function getNewID(){
             
             console.log("Server:", this.responseText);
             data = JSON.parse(this.responseText);
-            d.getElementById('requestID').innerHTML = `id: ${data["id"]}`;
-            reqID = data["id"];
+            response = JSON.parse(data['response']);
+            //console.log(JSON.parse(data['response'])['id']);
+            d.getElementById('requestID').innerHTML = `id: ${response["id"]}`;
+            reqID = response["id"];
         }
     }
-    xR.open("POST", "getNewID.php", true);
-    xR.send();
+    let data = {};
+    data['action'] = "insert";
+    data['value'] = {};
+    xR.open("POST", "dbInterface.php", true);
+    xR.send(JSON.stringify(data));
 }
+
+
 
 
 d.getElementById("uploads").addEventListener("change", function() {
@@ -57,6 +64,7 @@ function removeFile(i){
 function uploadFile(file) {
     let formData = new FormData();
     formData.append("file", file);
+    formData.append("id", reqID);
     console.log("uploading", formData);
     //makeRequest(formData, "fileUpload.php");
     xR = new XMLHttpRequest();
@@ -100,7 +108,7 @@ function makeFileUploadTable(){
         let rf = tb.insertRow();
         let cf = rf.insertCell();
         let flink = d.createElement('a');
-        flink.href = `./uploads/${file['name']}`;
+        flink.href = `./uploads/${reqID}/${file['name']}`;
         flink.innerText = file['name'];
         cf.append(flink);
         //cf.innerHTML = file['name'];
@@ -128,20 +136,68 @@ function makeFileUploadTable(){
 
 
 d.getElementById("submitRequest").addEventListener("click", () => {
-    
-    let formData = new FormData();
-    // Collect data to be sent
-    formData.append("id", reqID);
-    formData.append("requester", rName.value);
-    formData.append("email", requesterEmail.value);
-    formData.append("title", requestTitle.value);
-    formData.append("request", requestDescription.value);
-    formData.append("targetDate", wantBy.value);
-    formData.append("priority", priority.value);
-    formData.append("fileList", JSON.stringify(uploadedFileList));
 
-    console.log(formData);
-    makeRequest(formData);
+    let data = {};
+    data['id'] = reqID;
+    data['requester'] = rName.value;
+    data['email'] = requesterEmail.value;
+    data['title'] = requestTitle.value;
+    data['description'] = requestDescription.value;
+    data['targetDate'] = wantBy.value;
+    data['priority'] = priority.value;
+    // data['fileList'] = uploadedFileList;
+    data['fileList'] = [];
+    for (let i=0; i<uploadedFileList.length; i++){
+        data['fileList'].push(uploadedFileList[i]['name']);
+    }
+
+    let sendData = {};
+    sendData['action'] = 'update';
+    sendData['value'] = data;
+    console.log(JSON.stringify(sendData));
+
+    xR = new XMLHttpRequest();
+    xR.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            
+            console.log("Server:", this.responseText);
+            data = JSON.parse(this.responseText);
+            response = JSON.parse(data['response']);
+            console.log(response);
+            
+            // d.getElementById('requestID').innerHTML = `id: ${response["id"]}`;
+            // reqID = response["id"];
+        }
+    }
+    xR.open("POST", "dbInterface.php", true);
+    xR.send(JSON.stringify(sendData));
+
+    // console.log("Submitting ...");
+    // console.log(data);
+
+    // xR = new XMLHttpRequest();
+    // xR.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         console.log("From server:");
+    //         console.log(this.responseText);
+    //     }
+    // }
+    // xR.open("POST", "postLogger.php", true);
+    // xR.send(JSON.stringify(data));
+    
+    // let formData = new FormData();
+    // // Collect data to be sent
+    // formData.append("id", reqID);
+    // formData.append("requester", rName.value);
+    // formData.append("email", requesterEmail.value);
+    // formData.append("title", requestTitle.value);
+    // formData.append("request", requestDescription.value);
+    // formData.append("targetDate", wantBy.value);
+    // formData.append("priority", priority.value);
+    // formData.append("fileList", JSON.stringify(uploadedFileList));
+
+    // console.log(formData);
+    // makeRequest(formData);
     
 })
 
