@@ -24,6 +24,11 @@ for line in sys.stdin:
         #db.update(v, q.id == v["id"])
     if d["action"] == "getAll":
         data["values"] = db.all()
+    if d["action"] == "getJobByID":
+        data['id'] = d['value']['id']
+        q = Query()
+        data['job'] = db.search(q.id == int(data['id']))
+
 
 
 

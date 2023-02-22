@@ -22,6 +22,26 @@ function getNewID(){
     xR.send(JSON.stringify(data));
 }
 
+function getJobByID(id){
+    xR = new XMLHttpRequest();
+    xR.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            
+            // console.log("Server:", this.responseText);
+            data = JSON.parse(this.responseText);
+            response = JSON.parse(data['response']);
+            job = response["job"][0]
+            console.log(job);
+            //setPageID(response['id']);
+        }
+    }
+    let data = {};
+    data['action'] = "getJobByID";
+    data['value'] = {"id": id};
+    xR.open("POST", "dbInterface.php", true);
+    xR.send(JSON.stringify(data));
+}
+
 function setPageID(id){
     d.getElementById("requestID").innerHTML = `id: ${id}`;
     reqID = id;

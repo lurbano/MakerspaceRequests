@@ -13,7 +13,7 @@
 </head>
 <body>
     <div id="requester">
-        <h2>Requester</h2>
+        <h2>Request</h2>
         
         <div>
             Name: <input type="text" id="rName" placeholder="Name" value="Doc">
@@ -78,7 +78,8 @@
     } else {
         reqID = setPageID(params.get("id"));
         //get data for this id from server
-        
+        getJobByID(reqID);
+
     }
 
 
