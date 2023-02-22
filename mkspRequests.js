@@ -10,8 +10,9 @@ function getNewID(){
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
             //console.log(JSON.parse(data['response'])['id']);
-            d.getElementById('requestID').innerHTML = `id: ${response["id"]}`;
-            reqID = response["id"];
+            // d.getElementById('requestID').innerHTML = `id: ${response["id"]}`;
+            //reqID = response["id"];
+            setPageID(response['id']);
         }
     }
     let data = {};
@@ -21,7 +22,11 @@ function getNewID(){
     xR.send(JSON.stringify(data));
 }
 
-
+function setPageID(id){
+    d.getElementById("requestID").innerHTML = `id: ${id}`;
+    reqID = id;
+    return id;
+}
 
 
 

@@ -70,13 +70,24 @@
     var reqID = null;
     var uploadedFileList = [];
 
-    d.addEventListener('DOMContentLoaded', getNewID, false);
+    const params = new URLSearchParams(window.location.search);
+    console.log(params.get("id"));
+
+    if (params.get("id") === null) {
+        d.addEventListener('DOMContentLoaded', getNewID, false);
+    } else {
+        reqID = setPageID(params.get("id"));
+        //get data for this id from server
+        
+    }
+
 
     d.getElementById("uploads").addEventListener("change", function() {
         console.log(this.files);
         for (let i=0; i<this.files.length; i++){
             uploadFile(this.files[i]);
-    }
+        }
+    });
 
     // SUBMIT BUTTON
     d.getElementById("submitRequest").addEventListener("click", () => {
@@ -117,7 +128,7 @@
         xR.send(JSON.stringify(sendData));
 
     })
-})
+
 </script>
 
 </html>
