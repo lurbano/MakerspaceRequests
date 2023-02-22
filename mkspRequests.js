@@ -137,13 +137,70 @@ function makeJobBoard(){
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
 
-            makeJobTable(response['values']);
+            //makeJobTable(response['values']);
+            showJobs(response["values"]);
         }
     }
     let data = {};
     data['action'] = "getAll";
     xR.open("POST", "dbInterface.php", true);
     xR.send(JSON.stringify(data));
+}
+
+function showJobs(jobs){
+    let board = d.getElementById('jobBoard');
+    board.innerHTML = "";
+
+    for (let n=0; n<jobs.length; n++) {
+        let job = jobs[n];
+        if (typeof job["id"] !== 'undefined'){
+            console.log(job["id"], job["requester"]);
+            let jobDiv = d.createElement("div");
+            jobDiv.classList.add("job");
+
+            let div = d.createElement("div");
+            div.classList.add("jobTitle");
+            div.innerHTML = `${job['id']}: ${job['title']}`;
+            jobDiv.append(div);
+
+            div = d.createElement('div');
+            div.classList.add("jobRequester");
+            div.innerHTML = `${job['requester']}`;
+            jobDiv.append(div);
+
+            div = d.createElement('div');
+            div.classList.add("jobPriority");
+            div.innerHTML = `Priority: ${job['priority']}`;
+            jobDiv.append(div);
+
+            div = d.createElement('div');
+            div.classList.add("jobStatus");
+            div.innerHTML = `Status: ${job['status']}`;
+            jobDiv.append(div);
+
+            div = d.createElement('div');
+            div.classList.add("jobDescription");
+            let txt = `${job['description'].substring(0,50)}`;
+            if (job['description'].length > txt.length) {
+                txt += "...";
+            }
+            div.innerHTML = txt;
+            jobDiv.append(div);
+
+            board.append(jobDiv);
+
+            jobDiv.addEventListener("click", function(){
+                console.log(job['id']);
+            })
+        }
+        
+    }
+    
+}
+
+function addToDiv(divTo, divClass){
+    let div = d.createElement("div");
+    div.classList.add(divClass);
 }
 
 function makeJobTable(jobs){
