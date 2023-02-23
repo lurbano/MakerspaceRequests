@@ -32,7 +32,7 @@ function getJobByID(id){
             response = JSON.parse(data['response']);
             job = response["job"][0]
             console.log(job);
-            //setPageID(response['id']);
+            populateJobPage(job);
         }
     }
     let data = {};
@@ -40,6 +40,16 @@ function getJobByID(id){
     data['value'] = {"id": id};
     xR.open("POST", "dbInterface.php", true);
     xR.send(JSON.stringify(data));
+}
+
+function populateJobPage(job){
+    rName.value = job["requester"];
+    requesterEmail.value = job["email"];
+    requestTitle.value = job['title'];
+    requestDescription.innerHTML = job['description'];
+    wantBy.value = job['targetDate'];
+    priority.value = job['priority'];
+    d.getElementById("status").value = job['status'];
 }
 
 function setPageID(id){

@@ -9,11 +9,20 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
         }
+        #head {
+            background-color: orange;
+        }
+        #head:hover {
+            background-color: lightblue;
+            padding: 5px;
+            border: 1px solid red;
+            margin: 1em;
+        }
     </style>
 </head>
 <body>
     <div id="requester">
-        <h2>Request</h2>
+        <h2 id="head">Request</h2>
         
         <div>
             Name: <input type="text" id="rName" placeholder="Name" value="Doc">
@@ -50,10 +59,20 @@
             High
         </div>
         
+
+        <div>
+            <select name="" id="status">
+                <option value="open">Open</option>
+                <option value="inProgress">In Progress</option>
+                <option value="closed">Closed</option>
+            </select>
+            Open
+        </div>
+
         <div>
             <input type="button" id="submitRequest" value="Submit Request">
         </div>
-        <div id="status">Open</div>
+        
     </div>
 
     <div id="maker">
@@ -70,6 +89,7 @@
     var reqID = null;
     var uploadedFileList = [];
 
+    // DEAL WITH URL PARAMETERS
     const params = new URLSearchParams(window.location.search);
     console.log(params.get("id"));
 
@@ -82,7 +102,7 @@
 
     }
 
-
+    // UPLOAD FILES BUTTON
     d.getElementById("uploads").addEventListener("change", function() {
         console.log(this.files);
         for (let i=0; i<this.files.length; i++){
@@ -106,7 +126,7 @@
         for (let i=0; i<uploadedFileList.length; i++){
             data['fileList'].push(uploadedFileList[i]['name']);
         }
-        data['status'] = d.getElementById('status').innerHTML;
+        data['status'] = d.getElementById('status').value;
 
         let sendData = {};
         sendData['action'] = 'update';
