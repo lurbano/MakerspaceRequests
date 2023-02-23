@@ -27,7 +27,15 @@
 <script src="mkspRequests.js"></script>
 <script>
     var d = document;
-    makeJobBoard();
+    var adminFlag = false;
+
+    // DEAL WITH URL PARAMETERS
+    const params = new URLSearchParams(window.location.search);
+    //console.log(params.get("admin"));
+    if (params.get("admin") !== null) {
+        adminFlag = true;
+    }
+    makeJobBoard(adminFlag);
 
     
 </script>

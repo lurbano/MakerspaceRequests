@@ -50,6 +50,8 @@ function populateJobPage(job){
     wantBy.value = job['targetDate'];
     priority.value = job['priority'];
     d.getElementById("status").value = job['status'];
+    uploadedFileList = job['fileList'];
+    makeFileUploadTable();
 }
 
 function setPageID(id){
@@ -163,7 +165,7 @@ function makeFileUploadTable(){
 
 
 
-function makeJobBoard(){
+function makeJobBoard(adminFlag=false){
     let xR = new XMLHttpRequest();
     xR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -173,7 +175,7 @@ function makeJobBoard(){
             response = JSON.parse(data['response']);
 
             //makeJobTable(response['values']);
-            showJobs(response["values"]);
+            showJobs(response["values"], adminFlag);
         }
     }
     let data = {};
@@ -182,7 +184,7 @@ function makeJobBoard(){
     xR.send(JSON.stringify(data));
 }
 
-function showJobs(jobs){
+function showJobs(jobs, adminFlag=false){
     let board = d.getElementById('jobBoard');
     board.innerHTML = "";
 
@@ -193,10 +195,10 @@ function showJobs(jobs){
             let jobDiv = d.createElement("div");
             jobDiv.classList.add("job");
 
-            let div = d.createElement("div");
-            div.classList.add("jobTitle");
-            div.innerHTML = `${job['id']}: ${job['title']}`;
-            jobDiv.append(div);
+            let titleDiv = d.createElement("div");
+            titleDiv.classList.add("jobTitle");
+            titleDiv.innerHTML = `${job['id']}: ${job['title']}`;
+            jobDiv.append(titleDiv);
 
             div = d.createElement('div');
             div.classList.add("jobRequester");
@@ -222,15 +224,58 @@ function showJobs(jobs){
             div.innerHTML = txt;
             jobDiv.append(div);
 
+            if (adminFlag) { //remove job button
+                div = d.createElement('div');
+                rmBut =d.createElement('input');
+                rmBut.type = 'button';
+                rmBut.id = `rmJob-${job['id']}`;
+                rmBut.value = "Remove Job";
+                div.append(rmBut);
+                jobDiv.append(div);
+            }
+
             board.append(jobDiv);
 
-            jobDiv.addEventListener("click", function(){
+            titleDiv.addEventListener("click", function(){
                 console.log(job['id']);
+                let url = `job.html?id=${job['id']}`;
+                window.location.href = url;
             })
+
+            if (adminFlag) {
+                rmBut.addEventListener("click", () => {
+                    if (confirm(`Remove ${job['id']}: ${job['title']}?`)) {
+                        console.log(`removing ${job['id']}: ${job['title']}`);
+                        removeJobFromDB(job['id']);
+                    }
+                })
+            }
         }
         
     }
     
+}
+
+function removeJobFromDB(id){
+    xR = new XMLHttpRequest();
+    xR.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            
+            console.log("Server:", this.responseText);
+            data = JSON.parse(this.responseText);
+            response = JSON.parse(data['response']);
+            jobID = response["removed"][0]
+            //console.log(job);
+            //populateJobPage(job);
+            alert(`${jobID} removed!`);
+            makeJobBoard(true);
+        }
+    }
+    let data = {};
+    data['action'] = "removeJobByID";
+    data['value'] = {"id": id};
+    xR.open("POST", "dbInterface.php", true);
+    xR.send(JSON.stringify(data));
 }
 
 function addToDiv(divTo, divClass){

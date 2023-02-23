@@ -8,5 +8,5 @@ q = Query()
 #db.update({"email":"this"}, q.id == 2)
 #db.update(table.Document({"email":"this"}, doc_id = 2))
 
-x = db.search(q.id == "2")
+x = db.remove(q.id == 3)
 print(x)

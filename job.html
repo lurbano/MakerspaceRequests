@@ -61,18 +61,19 @@
         
 
         <div>
+            Status: 
             <select name="" id="status">
                 <option value="open">Open</option>
                 <option value="inProgress">In Progress</option>
                 <option value="closed">Closed</option>
             </select>
-            Open
+            
         </div>
 
         <div>
             <input type="button" id="submitRequest" value="Submit Request">
         </div>
-        
+
     </div>
 
     <div id="maker">
@@ -91,8 +92,7 @@
 
     // DEAL WITH URL PARAMETERS
     const params = new URLSearchParams(window.location.search);
-    console.log(params.get("id"));
-
+    
     if (params.get("id") === null) {
         d.addEventListener('DOMContentLoaded', getNewID, false);
     } else {
