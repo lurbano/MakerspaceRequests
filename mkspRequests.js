@@ -236,7 +236,7 @@ function showJobs(jobs, adminFlag=false){
 
             board.append(jobDiv);
 
-            titleDiv.addEventListener("click", function(){
+            jobDiv.addEventListener("click", function(){
                 console.log(job['id']);
                 let url = `job.html?id=${job['id']}`;
                 window.location.href = url;
