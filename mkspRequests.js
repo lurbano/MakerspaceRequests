@@ -27,11 +27,11 @@ function getJobByID(id){
     xR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             
-            // console.log("Server:", this.responseText);
+            console.log("Server:", this.responseText);
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
             job = response["job"][0]
-            console.log(job);
+            //console.log(job);
             populateJobPage(job);
         }
     }
@@ -39,6 +39,7 @@ function getJobByID(id){
     data['action'] = "getJobByID";
     data['value'] = {"id": id};
     xR.open("POST", "dbInterface.php", true);
+    console.log("Request", data);
     xR.send(JSON.stringify(data));
 }
 
@@ -52,6 +53,7 @@ function populateJobPage(job){
     d.getElementById("status").value = job['status'];
     uploadedFileList = job['fileList'];
     makeFileUploadTable();
+    submitRequest.value = "Update Request";
 }
 
 function setPageID(id){

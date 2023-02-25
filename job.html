@@ -61,7 +61,7 @@
         
 
         <div>
-            Status: 
+            Requester Status: 
             <select name="" id="status">
                 <option value="open">Open</option>
                 <option value="inProgress">In Progress</option>
@@ -99,6 +99,10 @@
             
         </div>
 
+        <div>
+            <input type="url" name="" id="blogURL">
+        </div>
+
     </div>
     
 </body>
@@ -109,6 +113,7 @@
     var uploadedFileList = [];
 
     // DEAL WITH URL PARAMETERS
+    // go to job with id=n
     const params = new URLSearchParams(window.location.search);
     
     if (params.get("id") === null) {
@@ -132,7 +137,7 @@
     d.getElementById("submitRequest").addEventListener("click", () => {
 
         let data = {};
-        data['id'] = reqID;
+        data['id'] = parseInt(reqID);
         data['requester'] = rName.value;
         data['email'] = requesterEmail.value;
         data['title'] = requestTitle.value;
