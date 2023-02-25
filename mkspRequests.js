@@ -31,8 +31,13 @@ function getJobByID(id){
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
             job = response["job"][0]
-            //console.log(job);
-            populateJobPage(job);
+            console.log("job:", job, job !== undefined);
+            if (job !== undefined) {
+                populateJobPage(job);
+            } else {
+                alert(`Request ID: ${response['id']} not found.`);
+            }
+            
         }
     }
     let data = {};
@@ -45,13 +50,20 @@ function getJobByID(id){
 
 
 function populateJobPage(job){
-    rName.value = job["rName"];
-    rEmail.value = job["rEmail"];
-    rTitle.value = job['rTitle'];
-    rNotes.innerHTML = job['rNotes'];
-    rTargetDate.value = job['rTargetDate'];
-    rPriority.value = job['rPriority'];
-    rStatus.value = job['rStatus'];
+    for (const [key, value] of Object.entries(job)) {
+        console.log(`${key}: ${value}`);
+        if (d.getElementById(key) !== null){
+            d.getElementById(key).value = value;
+        }
+      }
+
+    // rName.value = job["rName"];
+    // rEmail.value = job["rEmail"];
+    // rTitle.value = job['rTitle'];
+    // rNotes.innerHTML = job['rNotes'];
+    // rTargetDate.value = job['rTargetDate'];
+    // rPriority.value = job['rPriority'];
+    // rStatus.value = job['rStatus'];
     rUploadedFileList = job['rUploadedFileList'];
     makeFileUploadTable();
     submitRequest.value = "Update Request";

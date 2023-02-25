@@ -7,7 +7,7 @@
     <style>
         body {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 2fr 1fr 2fr;
         }
         #head {
             background-color: orange;
@@ -18,10 +18,27 @@
             border: 1px solid red;
             margin: 1em;
         }
+        .peeps {
+            border: 1px solid black;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 5px;
+        }
+        #rFiles {
+            background-color: #ddeeee;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
-    <div id="requester">
+
+    <!-- ---------------- -->
+    <!-- REQUESTER INPUTS -->
+    <!-- ---------------- -->
+    <div id="requester" class="peeps">
         <h2 id="head">Request</h2>
         
         <div>
@@ -42,7 +59,7 @@
             Details: <br> <textarea name="" id="rNotes" cols="50" rows="10">I want it all.</textarea>
         </div>
 
-        <div>
+        <div id="rFiles">
             Files: <br>
             <input type="file" name="" id="rUploads" multiple>
             <div id="uploadTable"></div>
@@ -70,13 +87,20 @@
             
         </div>
 
-        <div>
-            <input type="button" id="submitRequest" value="Submit Request">
-        </div>
+        
 
     </div>
 
-    <div id="maker">
+    <div>
+        <div>
+            <input type="button" id="submitRequest" value="Submit Request">
+        </div>
+    </div>
+
+    <!-- ------------- -->
+    <!-- MAKER INPUTS  -->
+    <!-- ------------- -->
+    <div id="maker" class="peeps">
         <h2>Makerspacetronaut</h2>
         <div>
             Name: <input type="text"  id="mName">
@@ -100,7 +124,7 @@
         </div>
 
         <div>
-            <input type="url" name="" id="blogURL">
+            Blog Post Link: <input type="url" name="" id="blogURL">
         </div>
 
     </div>
@@ -127,7 +151,7 @@
 
     }
 
-    // UPLOAD FILES BUTTON
+    // UPLOAD/UPDATA FILES BUTTON
     d.getElementById("rUploads").addEventListener("change", function() {
         console.log(this.files);
         for (let i=0; i<this.files.length; i++){
@@ -139,6 +163,7 @@
     d.getElementById("submitRequest").addEventListener("click", () => {
 
         let data = {};
+        // Requester
         data['id'] = parseInt(reqID);
         data['rName'] = rName.value;
         data['rEmail'] = rEmail.value;
@@ -151,6 +176,13 @@
             data['rUploadedFileList'].push(rUploadedFileList[i]);
         }
         data['rStatus'] = d.getElementById('rStatus').value;
+
+        // Maker
+        data['mName'] = mName.value;
+        data['mTargetDate'] = mTargetDate.value;
+        data['mNotes'] = mNotes.value;
+        data['mStatus'] = mStatus.value;
+        data['blogURL'] = blogURL.value;
 
         let sendData = {};
         sendData['action'] = 'update';
