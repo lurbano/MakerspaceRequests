@@ -43,22 +43,21 @@ function getJobByID(id){
     xR.send(JSON.stringify(data));
 }
 
-
 function populateJobPage(job){
-    rName.value = job["rName"];
-    rEmail.value = job["rEmail"];
-    rTitle.value = job['rTitle'];
-    rNotes.innerHTML = job['rNotes'];
-    rTargetDate.value = job['rTargetDate'];
-    rPriority.value = job['rPriority'];
-    rStatus.value = job['rStatus'];
-    rUploadedFileList = job['rUploadedFileList'];
+    rName.value = job["requester"];
+    requesterEmail.value = job["email"];
+    requestTitle.value = job['title'];
+    requestDescription.innerHTML = job['description'];
+    wantBy.value = job['targetDate'];
+    priority.value = job['priority'];
+    d.getElementById("status").value = job['status'];
+    uploadedFileList = job['fileList'];
     makeFileUploadTable();
     submitRequest.value = "Update Request";
 }
 
 function setPageID(id){
-    d.getElementById("rID").innerHTML = `id: ${id}`;
+    d.getElementById("requestID").innerHTML = `id: ${id}`;
     reqID = id;
     return id;
 }
@@ -67,7 +66,7 @@ function setPageID(id){
 
 
 function removeFile(i){
-    let fileName = rUploadedFileList[i];
+    let fileName = uploadedFileList[i];
     let data = {};
     data['action'] = 'remove';
     data['name'] = fileName;
@@ -79,9 +78,12 @@ function removeFile(i){
             console.log(this.responseText);
             console.log(this.responseText.split()[0]);
             if (this.responseText.split(' ')[0] === 'Removed') {
-                rUploadedFileList.splice(i,1);
+                uploadedFileList.splice(i,1);
                 makeFileUploadTable();
             }
+            // let f = formData.get('file');
+            // console.log(f['name'], f['size']);
+            // uploadedFileList.push(formData.get('file'));
             
         }
     }
@@ -107,15 +109,15 @@ function uploadFile(file) {
 
             let l_addToTable = true;
             console.log("File check");
-            for (let i=0; i<rUploadedFileList.length; i++){
+            for (let i=0; i<uploadedFileList.length; i++){
                 
-                if (f['name'] === rUploadedFileList[i]){
+                if (f['name'] === uploadedFileList[i]){
                     l_addToTable = false;
                     console.log(f['name'], " already in table.")
                 }
             }
             if (l_addToTable) {
-                rUploadedFileList.push(f['name']);
+                uploadedFileList.push(f['name']);
                 makeFileUploadTable();
             }
             
@@ -132,8 +134,8 @@ function makeFileUploadTable(){
     let r = h.insertRow();
     r.innerHTML = '<td>File</td><td>Remove</td>';
     let tb = t.createTBody();
-    for (let i=0; i<rUploadedFileList.length; i++) {
-        let fileName = rUploadedFileList[i];
+    for (let i=0; i<uploadedFileList.length; i++) {
+        let fileName = uploadedFileList[i];
         console.log('u:' + fileName);
         let rf = tb.insertRow();
         let cf = rf.insertCell();
@@ -152,8 +154,8 @@ function makeFileUploadTable(){
     uploadTable.append(t);
 
     //add listeners to remove buttons
-    for (let i=0; i<rUploadedFileList.length; i++) {
-        let fileName = rUploadedFileList[i];
+    for (let i=0; i<uploadedFileList.length; i++) {
+        let fileName = uploadedFileList[i];
         let id = `rmFile-${i}`;
         d.getElementById(id).addEventListener('click', () => {
             console.log("Removing: " + i + ":" + fileName);
@@ -197,28 +199,28 @@ function showJobs(jobs, adminFlag=false){
 
             let titleDiv = d.createElement("div");
             titleDiv.classList.add("jobTitle");
-            titleDiv.innerHTML = `${job['id']}: ${job['rTitle']}`;
+            titleDiv.innerHTML = `${job['id']}: ${job['title']}`;
             jobDiv.append(titleDiv);
 
             div = d.createElement('div');
             div.classList.add("jobRequester");
-            div.innerHTML = `${job['rName']}`;
+            div.innerHTML = `${job['requester']}`;
             jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("jobPriority");
-            div.innerHTML = `Priority: ${job['rPriority']}`;
+            div.innerHTML = `Priority: ${job['priority']}`;
             jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("jobStatus");
-            div.innerHTML = `Status: ${job['rStatus']}`;
+            div.innerHTML = `Status: ${job['status']}`;
             jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("jobDescription");
-            let txt = `${job['rNotes'].substring(0,50)}`;
-            if (job['rNotes'].length > txt.length) {
+            let txt = `${job['description'].substring(0,50)}`;
+            if (job['description'].length > txt.length) {
                 txt += "...";
             }
             div.innerHTML = txt;
@@ -245,7 +247,7 @@ function showJobs(jobs, adminFlag=false){
             if (adminFlag) {
                 rmBut.addEventListener("click", () => {
                     if (confirm(`Remove ${job['id']}: ${job['title']}?`)) {
-                        console.log(`removing ${job['id']}: ${job['rTitle']}`);
+                        console.log(`removing ${job['id']}: ${job['title']}`);
                         removeJobFromDB(job['id']);
                     }
                 })

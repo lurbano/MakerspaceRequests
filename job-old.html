@@ -29,40 +29,40 @@
         </div>
         
         <div>
-            Email: <input type="email" name="" id="rEmail">
+            Email: <input type="email" name="" id="requesterEmail">
         </div>
 
         <div>
-            Title: <input type="text" id="rTitle">
-            <span id="rID"></span>
+            Title: <input type="text" id="requestTitle">
+            <span id="requestID"></span>
         </div>
         
 
         <div>
-            Details: <br> <textarea name="" id="rNotes" cols="50" rows="10">I want it all.</textarea>
+            Details: <br> <textarea name="" id="requestDescription" cols="50" rows="10">I want it all.</textarea>
         </div>
 
         <div>
             Files: <br>
-            <input type="file" name="" id="rUploads" multiple>
+            <input type="file" name="" id="uploads" multiple>
             <div id="uploadTable"></div>
         </div>
 
         <div>
-            Need By: <input type="date" name="" id="rTargetDate">
+            Need By: <input type="date" name="" id="wantBy">
         </div>
 
         <div>
             Priority: <br>
             Low
-            <input type="range" name="" id="rPriority" min="0" max="10">
+            <input type="range" name="" id="priority" min="0" max="10">
             High
         </div>
         
 
         <div>
             Requester Status: 
-            <select name="" id="rStatus">
+            <select name="" id="status">
                 <option value="open">Open</option>
                 <option value="inProgress">In Progress</option>
                 <option value="closed">Closed</option>
@@ -79,19 +79,19 @@
     <div id="maker">
         <h2>Makerspacetronaut</h2>
         <div>
-            Name: <input type="text"  id="mName">
+            Name: <input type="text"  id="makerName">
         </div>
         <div>
-            Target Completion Date: <input type="date" name="" id="mTargetDate">
+            Target Completion Date: <input type="date" name="" id="makerCompletionDate">
         </div>
         <div>
             Notes:<br>
-            <textarea name="" id="mNotes" cols="50" rows="10"></textarea>
+            <textarea name="" id="makerNotes" cols="50" rows="10"></textarea>
         </div>
 
         <div>
             Maker's Status: 
-            <select name="" id="mStatus">
+            <select name="" id="status">
                 <option value="open">Open</option>
                 <option value="inProgress">In Progress</option>
                 <option value="closed">Closed</option>
@@ -110,17 +110,15 @@
 <script src="mkspRequests.js"></script>
 <script>
     var reqID = null;
-    var rUploadedFileList = [];
+    var uploadedFileList = [];
 
     // DEAL WITH URL PARAMETERS
     // go to job with id=n
     const params = new URLSearchParams(window.location.search);
     
     if (params.get("id") === null) {
-        // If there is no id in the url, create a new request
         d.addEventListener('DOMContentLoaded', getNewID, false);
     } else {
-        // Else load the request with the given id
         reqID = setPageID(params.get("id"));
         //get data for this id from server
         getJobByID(reqID);
@@ -128,7 +126,7 @@
     }
 
     // UPLOAD FILES BUTTON
-    d.getElementById("rUploads").addEventListener("change", function() {
+    d.getElementById("uploads").addEventListener("change", function() {
         console.log(this.files);
         for (let i=0; i<this.files.length; i++){
             uploadFile(this.files[i]);
@@ -140,17 +138,17 @@
 
         let data = {};
         data['id'] = parseInt(reqID);
-        data['rName'] = rName.value;
-        data['rEmail'] = rEmail.value;
-        data['rTitle'] = rTitle.value;
-        data['rNotes'] = rNotes.value;
-        data['rTargetDate'] = rTargetDate.value;
-        data['rPriority'] = rPriority.value;
-        data['rUploadedFileList'] = [];
-        for (let i=0; i<rUploadedFileList.length; i++){
-            data['rUploadedFileList'].push(rUploadedFileList[i]);
+        data['requester'] = rName.value;
+        data['email'] = requesterEmail.value;
+        data['title'] = requestTitle.value;
+        data['description'] = requestDescription.value;
+        data['targetDate'] = wantBy.value;
+        data['priority'] = priority.value;
+        data['fileList'] = [];
+        for (let i=0; i<uploadedFileList.length; i++){
+            data['fileList'].push(uploadedFileList[i]);
         }
-        data['rStatus'] = d.getElementById('rStatus').value;
+        data['status'] = d.getElementById('status').value;
 
         let sendData = {};
         sendData['action'] = 'update';
