@@ -121,9 +121,10 @@
         data['description'] = requestDescription.value;
         data['targetDate'] = wantBy.value;
         data['priority'] = priority.value;
+        // data['fileList'] = uploadedFileList;
         data['fileList'] = [];
         for (let i=0; i<uploadedFileList.length; i++){
-            data['fileList'].push(uploadedFileList[i]);
+            data['fileList'].push(uploadedFileList[i]['name']);
         }
         data['status'] = d.getElementById('status').value;
 

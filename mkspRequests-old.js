@@ -64,11 +64,10 @@ function setPageID(id){
 
 
 function removeFile(i){
-    let fileName = uploadedFileList[i];
+    let file = uploadedFileList[i];
     let data = {};
     data['action'] = 'remove';
-    data['name'] = fileName;
-    data['id'] = reqID;
+    data['name'] = file['name'];
     xR = new XMLHttpRequest();
     xR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -109,13 +108,13 @@ function uploadFile(file) {
             console.log("File check");
             for (let i=0; i<uploadedFileList.length; i++){
                 
-                if (f['name'] === uploadedFileList[i]){
+                if (f['name'] === uploadedFileList[i]['name']){
                     l_addToTable = false;
                     console.log(f['name'], " already in table.")
                 }
             }
             if (l_addToTable) {
-                uploadedFileList.push(f['name']);
+                uploadedFileList.push(formData.get('file'));
                 makeFileUploadTable();
             }
             
@@ -133,14 +132,15 @@ function makeFileUploadTable(){
     r.innerHTML = '<td>File</td><td>Remove</td>';
     let tb = t.createTBody();
     for (let i=0; i<uploadedFileList.length; i++) {
-        let fileName = uploadedFileList[i];
-        console.log('u:' + fileName);
+        let file = uploadedFileList[i];
+        console.log('u:' + file['name']);
         let rf = tb.insertRow();
         let cf = rf.insertCell();
         let flink = d.createElement('a');
-        flink.href = `./uploads/${reqID}/${fileName}`;
-        flink.innerText = fileName;
+        flink.href = `./uploads/${reqID}/${file['name']}`;
+        flink.innerText = file['name'];
         cf.append(flink);
+        //cf.innerHTML = file['name'];
         let cr = rf.insertCell();
         let rmBut = d.createElement("input");
         rmBut.type = "button";
@@ -153,10 +153,10 @@ function makeFileUploadTable(){
 
     //add listeners to remove buttons
     for (let i=0; i<uploadedFileList.length; i++) {
-        let fileName = uploadedFileList[i];
+        let file = uploadedFileList[i];
         let id = `rmFile-${i}`;
         d.getElementById(id).addEventListener('click', () => {
-            console.log("Removing: " + i + ":" + fileName);
+            console.log("Removing: " + i + ":" + file['name']);
             removeFile(i);
         })
     }
