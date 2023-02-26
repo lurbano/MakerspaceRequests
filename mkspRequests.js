@@ -51,11 +51,12 @@ function getJobByID(id){
 
 function populateJobPage(job){
     for (const [key, value] of Object.entries(job)) {
-        console.log(`${key}: ${value}`);
+        // console.log(`${key}: ${value}`);
         if (d.getElementById(key) !== null){
             d.getElementById(key).value = value;
         }
-      }
+    }
+    cID.innerHTML = `<p>-- ${job['id']} --<br> ${job['rTitle']}</p>`;
 
     // rName.value = job["rName"];
     // rEmail.value = job["rEmail"];
@@ -214,7 +215,7 @@ function showJobs(jobs, adminFlag=false){
 
             div = d.createElement('div');
             div.classList.add("jobRequester");
-            div.innerHTML = `${job['rName']}`;
+            div.innerHTML = `By: ${job['rName']}`;
             jobDiv.append(div);
 
             div = d.createElement('div');
@@ -223,8 +224,13 @@ function showJobs(jobs, adminFlag=false){
             jobDiv.append(div);
 
             div = d.createElement('div');
-            div.classList.add("jobStatus");
+            div.classList.add("rJobStatus");
             div.innerHTML = `Status: ${job['rStatus']}`;
+            jobDiv.append(div);
+
+            div = d.createElement('div');
+            div.classList.add("mJobStatus");
+            div.innerHTML = `Status: ${job['mStatus']}`;
             jobDiv.append(div);
 
             div = d.createElement('div');
