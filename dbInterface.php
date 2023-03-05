@@ -18,7 +18,7 @@
             1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
             2 => array("file", "/tmp/error-output.txt", "a") // stderr is a file to write to
          );
-        $process = proc_open('python dbInterface.py', $descriptorspec, $pipes, null, null);
+        $process = proc_open('python3 dbInterface.py', $descriptorspec, $pipes, null, null);
         if (is_resource($process)) {
             // $pipes now looks like this:
             // 0 => writeable handle connected to child stdin
