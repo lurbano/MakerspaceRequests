@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Makerspace Requests</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
+        #jobInfo {
             display: grid;
             grid-template-columns: 3fr 1fr 3fr;
+            position: relative;
+            top: 6em;
+            z-index: 1;
+            width: 100%;
         }
+        
         #head {
             background-color: orange;
         }
@@ -54,106 +60,126 @@
 <body>
 
     <!-- ---------------- -->
-    <!-- REQUESTER INPUTS -->
+    <!-- HEADER           -->
     <!-- ---------------- -->
-    <div id="requester" class="peeps">
-        <h2 id="head">Request</h2>
-        
-        <div>
-            Name: <input type="text" id="rName" placeholder="Name" value="Doc">
-        </div>
-        
-        <div>
-            Email: <input type="email" name="" id="rEmail">
-        </div>
-
-        <div>
-            Title: <input type="text" id="rTitle">
-            <span id="rID"></span>
-        </div>
-        
-
-        <div>
-            Details: <br> <textarea name="" id="rNotes" cols="50" rows="10">I want it all.</textarea>
+    <div id="header">
+        <h2>Job: </h2>
+        <div id="headerLinks">
+            <div class="pageLink"> 
+                <a href="index.html">Main Page</a>
+            </div>
+            <div class="pageLink"> 
+                <a href="board.html">Request Board</a>
+            </div>
         </div>
 
-        <div>
-            Need By: <input type="date" name="" id="rTargetDate">
-        </div>
+    </div>
 
-        <div>
-            Priority: <br>
-            Low
-            <input type="range" name="" id="rPriority" min="0" max="10">
-            High
-        </div>
-        
-
-        <div>
-            Requester Status: 
-            <select name="" id="rStatus">
-                <option value="open">Open</option>
-                <option value="inProgress">In Progress</option>
-                <option value="closed">Closed</option>
-            </select>
+    <div id="jobInfo">
+        <!-- ---------------- -->
+        <!-- REQUESTER INPUTS -->
+        <!-- ---------------- -->
+        <div id="requester" class="peeps">
+            <h2 id="head">Requester</h2>
             
-        </div>
-
-        
-
-    </div>
-
-    <!-- ------------- -->
-    <!-- COMMS         -->
-    <!-- ------------- -->
-    <div id="comms">
-        <div id="cID">
-
-        </div>
-
-        <div id="rFiles">
-            Upload Files: <br>
-            <input type="file" name="" id="rUploads" multiple>
-            <div id="uploadTable"></div>
-        </div>
-
-        <div>
-            <input type="button" id="submitRequest" value="Submit Request">
-        </div>
-
-    </div>
-
-    <!-- ------------- -->
-    <!-- MAKER INPUTS  -->
-    <!-- ------------- -->
-    <div id="maker" class="peeps">
-        <h2>Makerspacetronaut</h2>
-        <div>
-            Name: <input type="text"  id="mName">
-        </div>
-        <div>
-            Target Completion Date: <input type="date" name="" id="mTargetDate">
-        </div>
-        <div>
-            Notes:<br>
-            <textarea name="" id="mNotes" cols="50" rows="10"></textarea>
-        </div>
-
-        <div>
-            Maker's Status: 
-            <select name="" id="mStatus">
-                <option value="open">Open</option>
-                <option value="inProgress">In Progress</option>
-                <option value="closed">Closed</option>
-            </select>
+            <div>
+                Name: <input type="text" id="rName" placeholder="Name" value="Doc">
+            </div>
             
+            <div>
+                Email: <input type="email" name="" id="rEmail">
+            </div>
+
+            <div>
+                Title: <input type="text" id="rTitle">
+                <span id="rID"></span>
+            </div>
+            
+
+            <div>
+                Details: <br> <textarea name="" id="rNotes" cols="50" rows="10">I want it all.</textarea>
+            </div>
+
+            <div>
+                Need By: <input type="date" name="" id="rTargetDate">
+            </div>
+
+            <div>
+                Priority: <br>
+                Low
+                <input type="range" name="" id="rPriority" min="0" max="10">
+                High
+            </div>
+            
+
+            <div>
+                Requester Status: 
+                <select name="" id="rStatus">
+                    <option value="open">Open</option>
+                    <option value="inProgress">In Progress</option>
+                    <option value="closed">Closed</option>
+                </select>
+                
+            </div>
+
+            
+
         </div>
 
-        <div>
-            Blog Post Link: <input type="url" name="" id="blogURL">
+        <!-- ------------- -->
+        <!-- COMMS         -->
+        <!-- ------------- -->
+        <div id="comms">
+            <div id="cID">
+
+            </div>
+
+            <div id="rFiles">
+                Upload Files: <br>
+                <input type="file" name="" id="rUploads" multiple>
+                <div id="uploadTable"></div>
+            </div>
+
+            <div>
+                <input type="button" id="submitRequest" value="Submit Request">
+            </div>
+
         </div>
 
+        <!-- ------------- -->
+        <!-- MAKER INPUTS  -->
+        <!-- ------------- -->
+        <div id="maker" class="peeps">
+            <h2>Makerspacetronaut</h2>
+            <div>
+                Name: <input type="text"  id="mName">
+            </div>
+            <div>
+                Target Completion Date: <input type="date" name="" id="mTargetDate">
+            </div>
+            <div>
+                Notes:<br>
+                <textarea name="" id="mNotes" cols="50" rows="10"></textarea>
+            </div>
+
+            <div>
+                Maker's Status: 
+                <select name="" id="mStatus">
+                    <option value="open">Open</option>
+                    <option value="inProgress">In Progress</option>
+                    <option value="closed">Closed</option>
+                </select>
+                
+            </div>
+
+            <div>
+                Blog Post Link: <input type="url" name="" id="blogURL">
+            </div>
+
+        </div>
     </div>
+
+
     
 </body>
 
