@@ -177,13 +177,12 @@ function makeFileUploadTable(){
 }
 
 
-
 function makeJobBoard(adminFlag=false){
     let xR = new XMLHttpRequest();
     xR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             
-            //console.log("Server (getAll):", this.responseText);
+            console.log("Server (getAll):", this.responseText);
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
 
