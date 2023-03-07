@@ -251,9 +251,15 @@ function showJobs(jobs, adminFlag=false){
                 jobDiv.append(div);
             }
 
+            
+            jobLink = d.createElement('div');
+            jobLink.classList.add("jobLink");
+            jobLink.innerHTML = "View Details";
+            jobDiv.append(jobLink);
+
             board.append(jobDiv);
 
-            jobDiv.addEventListener("click", function(){
+            jobLink.addEventListener("click", function(){
                 console.log(job['id']);
                 let url = `job.html?id=${job['id']}`;
                 window.location.href = url;
