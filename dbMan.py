@@ -12,6 +12,7 @@ args = parser.parse_args()
 
 #print(args.insert, args.getDB)
 
+
 if (args.insert):
     id = db.insert({})
     print(id)
