@@ -22,7 +22,7 @@
         if ( move_uploaded_file($_FILES['file']['tmp_name'], $fname) ) { 
             echo 'File Upload: Success'; 
         } else { 
-            echo 'File Upload: Failure, #' . $_FILES['tmp_name']['error']; 
+            echo 'File Upload: Failure, #' . $_FILES['file']['error']; 
         }
     }
     //echo json_encode($_POST['id']);
