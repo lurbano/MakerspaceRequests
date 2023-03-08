@@ -207,6 +207,7 @@
     d.getElementById("rUploads").addEventListener("change", function() {
         console.log(this.files);
         for (let i=0; i<this.files.length; i++){
+            console.log("Calling upload:", this.files[i]);
             uploadFile(this.files[i]);
         }
     });
