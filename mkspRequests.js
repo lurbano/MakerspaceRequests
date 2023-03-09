@@ -214,7 +214,7 @@ function showJobs(jobs, adminFlag=false){
 
             div = d.createElement('div');
             div.classList.add("jobRequester");
-            div.innerHTML = `By: ${job['rName']}`;
+            div.innerHTML = `For: ${job['rName']}`;
             jobDiv.append(div);
 
             div = d.createElement('div');
@@ -265,6 +265,7 @@ function showJobs(jobs, adminFlag=false){
                 window.location.href = url;
             })
 
+            // Button for Administrator to remove jobs
             if (adminFlag) {
                 rmBut.addEventListener("click", () => {
                     if (confirm(`Remove ${job['id']}: ${job['title']}?`)) {
