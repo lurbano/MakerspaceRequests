@@ -10,4 +10,5 @@ Site for people to request jobs from the makerspace and makerspacetronauts to ac
 * Apache needs permissions on the ./uploads directory
     
 # ToDo
-* add makerspacestraunat claims of jobs
+* thumbnails for uploaded images
+* resize for phones
