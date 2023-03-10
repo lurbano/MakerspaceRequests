@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Board (Makerspace)</title>
+    <title>Board (Makerspace Requests)</title>
     <style>
         .job { 
             display: grid;
@@ -13,7 +13,7 @@
             margin: 4px;
             
             padding: 5px;
-            height: 4em;
+            height: 5em;
         }
         .job:hover {
             background-color: #ddddee;
@@ -34,7 +34,7 @@
             margin-right: 5px;
 
         }
-        .mJobStatus{
+        .jobStatus{
             grid-row: 2;
             grid-column: 4;
         }
@@ -65,6 +65,17 @@
         .jobRequester {
             text-decoration: underline;
         }
+
+        .job_open {
+            background-color: bisque;
+        }
+        .job_closed {
+            background-color: lightgrey;
+        }
+        .job_inProgress {
+            background-color: aliceblue;
+        }
+
         #header {
             position: fixed;
             width: 95%;

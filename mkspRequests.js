@@ -207,6 +207,10 @@ function showJobs(jobs, adminFlag=false){
             let jobDiv = d.createElement("div");
             jobDiv.classList.add("job");
 
+            //add class based on status
+            jobDiv.classList.add(`job_${job['mStatus']}`);
+            
+
             let titleDiv = d.createElement("div");
             titleDiv.classList.add("jobTitle");
             titleDiv.innerHTML = `${job['id']}: ${job['rTitle']}`;
@@ -223,14 +227,14 @@ function showJobs(jobs, adminFlag=false){
             // jobDiv.append(div);
 
             div = d.createElement('div');
-            div.classList.add("rJobStatus");
-            div.innerHTML = `Status: ${job['rStatus']}`;
+            div.classList.add("jobStatus");
+            div.innerHTML = `Status: ${job['rStatus']}<br> ${job['mStatus']}`;
             jobDiv.append(div);
 
-            div = d.createElement('div');
-            div.classList.add("mJobStatus");
-            div.innerHTML = `Status: ${job['mStatus']}`;
-            jobDiv.append(div);
+            // div = d.createElement('div');
+            // div.classList.add("mJobStatus");
+            // div.innerHTML = `Status: ${job['mStatus']}`;
+            // jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("jobDescription");
@@ -258,6 +262,7 @@ function showJobs(jobs, adminFlag=false){
             jobDiv.append(jobLink);
 
             board.append(jobDiv);
+
 
             jobLink.addEventListener("click", function(){
                 console.log(job['id']);
