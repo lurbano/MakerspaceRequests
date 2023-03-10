@@ -203,7 +203,7 @@ function showJobs(jobs, adminFlag=false){
     for (let n=0; n<jobs.length; n++) {
         let job = jobs[n];
         if (typeof job["id"] !== 'undefined'){
-            console.log(job["id"], job["requester"]);
+            //console.log(job["id"], job["requester"]);
             let jobDiv = d.createElement("div");
             jobDiv.classList.add("job");
 
@@ -212,15 +212,15 @@ function showJobs(jobs, adminFlag=false){
             titleDiv.innerHTML = `${job['id']}: ${job['rTitle']}`;
             jobDiv.append(titleDiv);
 
-            div = d.createElement('div');
-            div.classList.add("jobRequester");
-            div.innerHTML = `For: ${job['rName']}`;
-            jobDiv.append(div);
+            reqDiv = d.createElement('div');
+            reqDiv.classList.add("jobRequester");
+            reqDiv.innerHTML = `(Pri: ${job['rPriority']}) ${job['rName']} `;
+            jobDiv.append(reqDiv);
 
-            div = d.createElement('div');
-            div.classList.add("jobPriority");
-            div.innerHTML = `Priority: ${job['rPriority']}`;
-            jobDiv.append(div);
+            // div = d.createElement('div');
+            // div.classList.add("jobPriority");
+            // div.innerHTML = `Priority: ${job['rPriority']}`;
+            // jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("rJobStatus");

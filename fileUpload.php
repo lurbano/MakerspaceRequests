@@ -7,20 +7,28 @@
 
     $id = $_POST['id'];
 
-    // $upDir = '/var/www/html/MakerspaceRequests/uploads/' . $id . "/";
+    $convertables = ["jpg", "png"];
 
     $upDir = "./uploads/$id/";
-
     if (!is_dir($upDir)){
         mkdir($upDir);
     }
 
     if (!empty($_FILES)) {
         $fname = $upDir . $_FILES['file']['name'];
+        $ext = pathinfo($fname, PATHINFO_EXTENSION);
         //echo $fname;
         /* Save the uploaded file to the local filesystem */
         if ( move_uploaded_file($_FILES['file']['tmp_name'], $fname) ) { 
             echo 'File Upload: Success'; 
+            if (in_array(strtolower($ext), $convertables)) {
+                echo "conveting ".$ext. " ";
+                $tname = $upDir . "th_". $_FILES['file']['name'];
+                $cmd = 'convert '.$fname.' -resize 100x100 '.$tname;
+                $thcvt = system($cmd);
+                echo $thcvt;
+            }
+            
         } else { 
             echo 'File Upload: Failure, #' . $_FILES['file']['error']; 
         }
