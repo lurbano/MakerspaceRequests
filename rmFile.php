@@ -6,9 +6,7 @@
     // Converts it into a PHP object
     $data = json_decode($json);
 
-    // echo json_encode($data);
-    // echo json_encode($data->name);
-    //echo json_encode($_FILES);
+    $eData['type'] = 'remove';
 
     $upDir = "/var/www/html/MakerspaceRequests/uploads/";
     $fname = $upDir . $data->id ."/".$data->name;
@@ -20,8 +18,11 @@
         $a = 1;
         //echo $fname;
         unlink($fname);
-        echo "Removed " . $fname . ":" . $data->name;
-        echo json_encode($data);
+        $eData['fname'] = $fname;
+        $eData['status'] = 'Removed';
+        echo json_encode($eData);
+        //echo "Removed " . $fname . ":" . $data->name;
+        //echo json_encode($data);
     }
 
     

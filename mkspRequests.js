@@ -90,8 +90,8 @@ function removeFile(i){
         if (this.readyState == 4 && this.status == 200) {
             console.log("From server:");
             console.log(this.responseText);
-            console.log(this.responseText.split()[0]);
-            if (this.responseText.split(' ')[0] === 'Removed') {
+            data = JSON.parse(this.responseText);
+            if (data['status'] === 'Removed') {
                 rUploadedFileList.splice(i,1);
                 makeFileUploadTable();
             }
@@ -115,21 +115,26 @@ function uploadFile(file) {
         if (this.readyState == 4 && this.status == 200) {
             console.log("From server:");
             console.log(this.responseText);
-            let f = formData.get('file');
-            console.log(f['name'], f['size']);
-
-            let l_addToTable = true;
-            console.log("File check");
-            for (let i=0; i<rUploadedFileList.length; i++){
-                
-                if (f['name'] === rUploadedFileList[i]){
-                    l_addToTable = false;
-                    console.log(f['name'], " already in table.")
+            data = JSON.parse(this.responseText);
+            if (data['status'] === 'Failure') {
+                alert("Upload Failed: Error #" + data['error']);
+            } else {
+                let f = formData.get('file');
+                console.log(f['name'], f['size']);
+    
+                let l_addToTable = true;
+                console.log("File check");
+                for (let i=0; i<rUploadedFileList.length; i++){
+                    
+                    if (f['name'] === rUploadedFileList[i]){
+                        l_addToTable = false;
+                        console.log(f['name'], " already in table.")
+                    }
                 }
-            }
-            if (l_addToTable) {
-                rUploadedFileList.push(f['name']);
-                makeFileUploadTable();
+                if (l_addToTable) {
+                    rUploadedFileList.push(f['name']);
+                    makeFileUploadTable();
+                }
             }
             
         }
