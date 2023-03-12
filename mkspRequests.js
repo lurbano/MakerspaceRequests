@@ -218,12 +218,12 @@ function showJobs(jobs, adminFlag=false){
 
             let titleDiv = d.createElement("div");
             titleDiv.classList.add("jobTitle");
-            titleDiv.innerHTML = `${job['id']}: ${job['rTitle']}`;
+            titleDiv.innerHTML = `${job['id']}: <b>${job['rTitle']}</b>`;
             jobDiv.append(titleDiv);
 
             reqDiv = d.createElement('div');
             reqDiv.classList.add("jobRequester");
-            reqDiv.innerHTML = `${job['rName']} (${job['rStatus']}) (Pri: ${job['rPriority']}) `;
+            reqDiv.innerHTML = `<b>${job['rName']}</b> (${job['rStatus']}) (Pri: ${job['rPriority']}) `;
             jobDiv.append(reqDiv);
 
             // div = d.createElement('div');
@@ -233,7 +233,7 @@ function showJobs(jobs, adminFlag=false){
 
             div = d.createElement('div');
             div.classList.add("jobStatus");
-            div.innerHTML = `${job['mName']}: ${job['mStatus']}`;
+            div.innerHTML = `<b>${job['mName']}</b> (${job['mStatus']})`;
             jobDiv.append(div);
 
             // div = d.createElement('div');

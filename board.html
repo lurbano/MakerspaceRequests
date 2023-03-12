@@ -7,7 +7,7 @@
     <style>
         .job { 
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             background-color: lightblue;
             border: 5px outset lightsalmon;
             margin: 4px;
@@ -33,16 +33,25 @@
         .jobRequester {
             text-decoration: underline;
             grid-column: 2/4;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin-right: 2px;
+            padding: 2px;
         }
         .jobDescription {
             border: 1px solid red;
-            grid-column: 2/4;
+            grid-column: 2/5;
             margin-right: 5px;
 
         }
         .jobStatus{
             grid-row: 1;
             grid-column: 4;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin-left: 2px;
+            margin-right: 2px;
+            padding: 2px;
         }
         .jobLink {
             grid-column: 5;
