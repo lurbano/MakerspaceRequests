@@ -223,7 +223,7 @@ function showJobs(jobs, adminFlag=false){
 
             reqDiv = d.createElement('div');
             reqDiv.classList.add("jobRequester");
-            reqDiv.innerHTML = `(Pri: ${job['rPriority']}) ${job['rName']} (${job['rStatus']}) `;
+            reqDiv.innerHTML = `${job['rName']} (${job['rStatus']}) (Pri: ${job['rPriority']}) `;
             jobDiv.append(reqDiv);
 
             // div = d.createElement('div');
