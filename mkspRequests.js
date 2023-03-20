@@ -182,25 +182,6 @@ function makeFileUploadTable(){
 }
 
 
-// function makeJobBoard(adminFlag=false){
-//     let xR = new XMLHttpRequest();
-//     xR.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-            
-//             console.log("Server (getAll):", this.responseText);
-//             data = JSON.parse(this.responseText);
-//             response = JSON.parse(data['response']);
-
-//             //makeJobTable(response['values']);
-//             showJobs(response["values"], adminFlag);
-//         }
-//     }
-//     let data = {};
-//     data['action'] = "getAll";
-//     xR.open("POST", "dbInterface.php", true);
-//     xR.send(JSON.stringify(data));
-// }
-
 function makeJobBoardQ(key="mStatus", value="all"){
     
     console.log(`key: ${key} | value: ${value}`);
@@ -240,30 +221,30 @@ function showJobs(jobs, adminFlag=false){
             jobDiv.classList.add(`job_${job['mStatus']}`);
             
 
-            let titleDiv = d.createElement("div");
-            titleDiv.classList.add("jobTitle");
-            titleDiv.innerHTML = `${job['id']}: <b>${job['rTitle']}</b>`;
-            jobDiv.append(titleDiv);
+            // let titleDiv = d.createElement("div");
+            // titleDiv.classList.add("jobTitle");
+            // titleDiv.innerHTML = `${job['id']}: <b>${job['rTitle']}</b>`;
+            // jobDiv.append(titleDiv);
+
+
+            let titleLink = d.createElement('a');
+            titleLink.classList.add("jobTitle");
+            titleLink.innerHTML = `${job['id']}: <b>${job['rTitle']}</b>`;
+            titleLink.setAttribute('href', `job.html?id=${job['id']}`);
+            jobDiv.append(titleLink);
+
 
             reqDiv = d.createElement('div');
             reqDiv.classList.add("jobRequester");
             reqDiv.innerHTML = `<b>${job['rName']}</b> (${job['rStatus']}) (Pri: ${job['rPriority']}) `;
             jobDiv.append(reqDiv);
 
-            // div = d.createElement('div');
-            // div.classList.add("jobPriority");
-            // div.innerHTML = `Priority: ${job['rPriority']}`;
-            // jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("jobStatus");
             div.innerHTML = `<b>${job['mName']}</b> (${job['mStatus']})`;
             jobDiv.append(div);
 
-            // div = d.createElement('div');
-            // div.classList.add("mJobStatus");
-            // div.innerHTML = `Status: ${job['mStatus']}`;
-            // jobDiv.append(div);
 
             div = d.createElement('div');
             div.classList.add("jobDescription");
@@ -284,9 +265,10 @@ function showJobs(jobs, adminFlag=false){
                 jobDiv.append(div);
             }
 
-            
-            jobLink = d.createElement('div');
+
+            jobLink = d.createElement('a');
             jobLink.classList.add("jobLink");
+            jobLink.setAttribute('href', `job.html?id=${job['id']}`);
             jobLink.innerHTML = "View Details";
             jobDiv.append(jobLink);
 
