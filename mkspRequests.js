@@ -30,7 +30,7 @@ function getJobByID(id){
             console.log("Server:", this.responseText);
             data = JSON.parse(this.responseText);
             response = JSON.parse(data['response']);
-            job = response["job"][0]
+            job = response["job"] //[0]
             console.log("job:", job, job !== undefined);
             if (job !== undefined) {
                 populateJobPage(job);
@@ -156,7 +156,7 @@ function makeFileUploadTable(){
         let rf = tb.insertRow();
         let cf = rf.insertCell();
         let flink = d.createElement('a');
-        flink.href = `./uploads/${reqID}/${fileName}`;
+        flink.href = `./jobs/${reqID}/uploads/${fileName}`;
         flink.innerText = fileName;
         cf.append(flink);
         let cr = rf.insertCell();
@@ -182,7 +182,28 @@ function makeFileUploadTable(){
 }
 
 
-function makeJobBoard(adminFlag=false){
+// function makeJobBoard(adminFlag=false){
+//     let xR = new XMLHttpRequest();
+//     xR.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+            
+//             console.log("Server (getAll):", this.responseText);
+//             data = JSON.parse(this.responseText);
+//             response = JSON.parse(data['response']);
+
+//             //makeJobTable(response['values']);
+//             showJobs(response["values"], adminFlag);
+//         }
+//     }
+//     let data = {};
+//     data['action'] = "getAll";
+//     xR.open("POST", "dbInterface.php", true);
+//     xR.send(JSON.stringify(data));
+// }
+
+function makeJobBoardQ(key="mStatus", value="all"){
+    
+    console.log(`key: ${key} | value: ${value}`);
     let xR = new XMLHttpRequest();
     xR.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -196,7 +217,10 @@ function makeJobBoard(adminFlag=false){
         }
     }
     let data = {};
-    data['action'] = "getAll";
+    data['action'] = "getByQuery";
+    data['key'] = key;
+    data['value'] = value;
+    console.log("data: ", data);
     xR.open("POST", "dbInterface.php", true);
     xR.send(JSON.stringify(data));
 }
@@ -355,4 +379,31 @@ function makeJobTable(jobs){
     }
     board.append(t);
 
+}
+
+function searchJobs(txt){
+    if (txt !== ""){
+        console.log(`Search for: ${txt}`);
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                
+                console.log("Server (search):", this.responseText);
+                data = JSON.parse(this.responseText);
+                response = JSON.parse(data['response']);
+    
+                //makeJobTable(response['values']);
+                showJobs(response["values"], adminFlag);
+            }
+        }
+        let data = {};
+        data['action'] = "searchText";
+        data['value'] = txt;
+        console.log("data: ", data);
+        xR.open("POST", "dbInterface.php", true);
+        xR.send(JSON.stringify(data));
+    }
+    else {
+        makeJobBoardQ();
+    }
 }

@@ -9,7 +9,7 @@
 
     $convertables = ["jpg", "png"];
 
-    $upDir = "./uploads/$id/";
+    $upDir = "./jobs/$id/uploads/";
     if (!is_dir($upDir)){
         mkdir($upDir);
     }

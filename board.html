@@ -71,6 +71,11 @@
             grid-column: 6;
             grid-row: 1/3;
         }
+        #searchOptions {
+            position: relative;
+            top:8em;
+            z-index:2;
+        }
         #jobBoard {
             position: relative;
             top: 10em;
@@ -142,6 +147,22 @@
 
     </div>
 
+    <div id="searchOptions">
+        |
+        <label for="searchByMakerStatus">Status:</label>
+        <select name="" id="searchByMakerStatus">
+            <optgroup label="Status">
+                <option value="all" selected>All</option>
+                <option value="open">Open</option>
+                <option value="inProgress">In Progress</option>
+                <option value="closed">Closed</option>                
+            </optgroup>
+        </select>
+        |
+        <input type="search" id="textSearch" placeholder="search">
+        |
+    </div>
+
     <div id="jobBoard"></div>
     
 </body>
@@ -156,7 +177,15 @@
     if (params.get("admin") !== null) {
         adminFlag = true;
     }
-    makeJobBoard(adminFlag);
+    makeJobBoardQ();
+
+    d.getElementById("searchByMakerStatus").addEventListener("change", function(){
+        makeJobBoardQ("mStatus", this.value);
+    });
+
+    d.getElementById("textSearch").addEventListener("change", function(){
+        searchJobs(this.value);
+    });
 
     
 </script>

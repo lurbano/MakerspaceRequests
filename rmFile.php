@@ -8,8 +8,8 @@
 
     $eData['type'] = 'remove';
 
-    $upDir = "/var/www/html/MakerspaceRequests/uploads/";
-    $fname = $upDir . $data->id ."/".$data->name;
+    $upDir = "/var/www/html/MakerspaceRequests/jobs/";
+    $fname = $upDir . $data->id ."/uploads/".$data->name;
     //echo $fname;
 
     //echo 'rmFile: ';
