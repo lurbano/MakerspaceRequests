@@ -80,7 +80,7 @@ function setPageID(id){
 
 
 function removeFile(i){
-    let fileName = rUploadedFileList[i];
+    let fileName = rUploadedFileList[i]['filename'];
     let data = {};
     data['action'] = 'remove';
     data['name'] = fileName;
@@ -132,7 +132,12 @@ function uploadFile(file) {
                     }
                 }
                 if (l_addToTable) {
-                    rUploadedFileList.push(f['name']);
+                    let newfile = {
+                        "filename": f['name'], 
+                        "note": "",
+                        "thumb": 0
+                    };
+                    rUploadedFileList.push(newfile); //only saved when page saved
                     makeFileUploadTable();
                 }
             }
@@ -151,7 +156,7 @@ function makeFileUploadTable(){
     r.innerHTML = '<td>File</td><td>Remove</td>';
     let tb = t.createTBody();
     for (let i=0; i<rUploadedFileList.length; i++) {
-        let fileName = rUploadedFileList[i];
+        let fileName = rUploadedFileList[i]["filename"];
         console.log('u:' + fileName);
         let rf = tb.insertRow();
         let cf = rf.insertCell();
