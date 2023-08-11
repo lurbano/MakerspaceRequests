@@ -1,4 +1,4 @@
 db.json
 idDB.json
 jobs
-*.pyc
+__pycache__
