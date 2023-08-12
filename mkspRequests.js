@@ -282,13 +282,13 @@ function showJobs(jobs, adminFlag=false){
             thumbDiv = d.createElement('div');
             thumbDiv.classList.add("jobThumbs");
             // thumbDiv.innerHTML = "Thumbnails";
-            console.log(job['rUploadedFileList']);
+            // console.log(job['rUploadedFileList']);
             for (f of job['rUploadedFileList']){
-                console.log(f);
+                // console.log(f);
                 if (f['thumb'] === 1){
                     imgURL = `jobs/${job['id']}/uploads/${f['filename']}`;
                     thURL = `jobs/${job['id']}/uploads/th_${f['filename']}`;
-                    console.log(thURL);
+                    // console.log(thURL);
                     linkDiv = d.createElement('a');
                     linkDiv.setAttribute('href', imgURL) ;
                     // linkDiv.innerHTML = f['filename'];
