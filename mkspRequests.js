@@ -215,7 +215,7 @@ function showJobs(jobs, adminFlag=false){
     let board = d.getElementById('jobBoard');
     board.innerHTML = "";
 
-    for (let n=0; n<jobs.length; n++) {
+    for (let n=jobs.length-1; n>=0; n--) {
         let job = jobs[n];
         //console.log(job['rUploadedFileList']);
         if (typeof job["id"] !== 'undefined'){
