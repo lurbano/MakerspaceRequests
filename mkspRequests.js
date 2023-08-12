@@ -120,7 +120,7 @@ function uploadFile(file) {
                 alert("Upload Failed: Error #" + data['error']);
             } else {
                 let f = formData.get('file');
-                console.log(f['name'], f['size']);
+                console.log(f['name'], f['size'], f['msg']);
     
                 let l_addToTable = true;
                 console.log("File check");
@@ -135,7 +135,7 @@ function uploadFile(file) {
                     let newfile = {
                         "filename": f['name'], 
                         "note": "",
-                        "thumb": 0
+                        "thumb": data["msg"] ? 1 : 0
                     };
                     rUploadedFileList.push(newfile); //only saved when page saved
                     makeFileUploadTable();
@@ -217,6 +217,7 @@ function showJobs(jobs, adminFlag=false){
 
     for (let n=0; n<jobs.length; n++) {
         let job = jobs[n];
+        //console.log(job['rUploadedFileList']);
         if (typeof job["id"] !== 'undefined'){
             //console.log(job["id"], job["requester"]);
             let jobDiv = d.createElement("div");
@@ -277,6 +278,30 @@ function showJobs(jobs, adminFlag=false){
             jobLink.innerHTML = "View Details";
             jobDiv.append(jobLink);
 
+            //Add thumbnails
+            thumbDiv = d.createElement('div');
+            thumbDiv.classList.add("jobThumbs");
+            // thumbDiv.innerHTML = "Thumbnails";
+            console.log(job['rUploadedFileList']);
+            for (f of job['rUploadedFileList']){
+                console.log(f);
+                if (f['thumb'] === 1){
+                    imgURL = `jobs/${job['id']}/uploads/${f['filename']}`;
+                    thURL = `jobs/${job['id']}/uploads/th_${f['filename']}`;
+                    console.log(thURL);
+                    linkDiv = d.createElement('a');
+                    linkDiv.setAttribute('href', imgURL) ;
+                    // linkDiv.innerHTML = f['filename'];
+                    img = d.createElement('img');
+                    img.setAttribute('src', thURL);
+                    img.classList.add("jobThumbnail");
+                    linkDiv.append(img);
+                    thumbDiv.append(linkDiv);
+                }
+            }
+            jobDiv.append(thumbDiv);
+
+            //Add everything to the board
             board.append(jobDiv);
 
 

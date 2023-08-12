@@ -30,7 +30,7 @@
                 $cmd = 'convert '.$fname.' -resize 100x100 '.$tname;
                 $thcvt = system($cmd);
                 //echo $thcvt;
-                $data['msg'] = $thcvt;
+                $data['msg'] = file_exists($tname);
             }
 
             
